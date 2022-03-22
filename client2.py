@@ -40,7 +40,7 @@ class MainWindow(QWidget):
         self.text3.move(10, 180)
         self.label3.move(10,160)
 
-        self.button = QPushButton("Send:", self)
+        self.button = QPushButton("Send", self)
         self.button.move(150, 300)
 
         self.button.clicked.connect(self.on_click)
@@ -57,15 +57,16 @@ class MainWindow(QWidget):
             QMessageBox.about(self, "Error", "Please fill the field")
         else:
             res = self.__query(hostname,ip,api_key)
+            
             if res:
-                self.label2.setText("\n Longitude: %s \n Latitude: %s \n" % (res["Longitude"], res["Latitude"]))
+                self.label2.setText("\n \n Longitude: %s \n Latitude: %s \n" % (res["Longitude"], res["Latitude"]))
                 self.label2.adjustSize()
                 self.show()
                 url3="https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=12" % (res["Latitude"], res["Longitude"])
                 webbrowser.open_new_tab(url3)
 
-    def __query(self, hostname,api_key,ip):
-        url = "http://%s/ip/%s?key=%s" % (hostname,api_key,ip)
+    def __query(self, hostname,ip, api_key):
+        url = "http://%s/ip/%s?key=%s" % (hostname,ip,api_key)
         r = requests.get(url)
         if r.status_code == requests.codes.NOT_FOUND:
             QMessageBox.about(self, "Error", "IP not found")
