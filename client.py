@@ -18,3 +18,4 @@ if __name__ == "__main__":
     res = main.query(hostname)
     if res:
         print(res)
+        

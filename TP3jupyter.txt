@@ -1,3 +1,4 @@
 1)Un service web est un programme via les environnements permettant d'échanger les données et communiquer entre application et système hétérogène.
 2) Api REST dont REST qui veut dire Representational State Transfer est une interface de programmation d'application qui respect l'architecture RESTbet permet donc d'interagir avec les services web REST.
 3)FastAPI est un framework(ensemble d'outil et composants logiciels à la base d'un logiciel ou d'application) pour la création d'un API avec Python.
+
