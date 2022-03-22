@@ -20,13 +20,26 @@ class MainWindow(QWidget):
     def initUI(self):
         self.setWindowTitle("Client")
         self.setFixedSize(400, 400)
-        self.label1 = QLabel("Enter your host IP:", self)
-        self.text = QLineEdit(self)
-        self.text.move(10, 30)
-        self.label2 = QLabel("Answer:", self)
-        self.label2.move(10, 60)
-        self.button = QPushButton("Send", self)
-        self.button.move(10, 90)
+
+
+        self.label1 = QLabel("Enter your IP:", self)
+        self.text1 = QLineEdit(self)
+        self.text1.move(10, 60)
+        self.label1.move(10,40)
+
+
+        self.label2 = QLabel("Enter your API Key:", self)
+        self.text2 = QLineEdit(self)
+        self.text2.move(10, 120)
+        self.label2.move(10,100)
+
+        self.label3 = QLabel("Enter the hosname:", self)
+        self.text3 = QLineEdit(self)
+        self.text3.move(10, 180)
+        self.label3.move(10,160)
+
+        self.button = QPushButton("Send:", self)
+        self.button.move(150, 300)
 
         self.button.clicked.connect(self.on_click)
         self.button.pressed.connect(self.on_click)
@@ -41,12 +54,12 @@ class MainWindow(QWidget):
         else:
             res = self.__query(hostname)
             if res:
-                self.label2.setText("Answer%s" % (res["Hello"]))
+                self.label2.setText("Answer%s" % (res))
                 self.label2.adjustSize()
                 self.show()
 
-    def __query(self, hostname):
-        url = "http://%s" % (hostname)
+    def __query(self, hostname,api_key,ip):
+        url = "http://%s" % (hostname,api_key,ip)
         r = requests.get(url)
         if r.status_code == requests.codes.NOT_FOUND:
             QMessageBox.about(self, "Error", "IP not found")
