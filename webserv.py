@@ -2,6 +2,8 @@ from typing import Optional
 from fastapi import FastAPI
 from shodan import Shodan
 
+app = FastAPI()
+
 @app.get("/ip/{ip}")
 async def get_ip(ip: str, key: Optional[str] = None):
     if key is None:
@@ -18,9 +20,8 @@ async def get_ip(ip: str, key: Optional[str] = None):
         except Exception as e:
             return {"Error": str(e)}
 
-app = FastAPI()
+
 
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
-    
