@@ -1,3 +1,4 @@
+from re import S
 from PyQt5.QtWidgets import (
     QApplication,
     QWidget,
@@ -10,6 +11,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.Qt import QUrl, QDesktopServices
 import requests
 import sys
+import webbrowser
 
 
 class MainWindow(QWidget):
@@ -33,7 +35,7 @@ class MainWindow(QWidget):
         self.text2.move(10, 120)
         self.label2.move(10,100)
 
-        self.label3 = QLabel("Enter the hosname:", self)
+        self.label3 = QLabel("Enter the hostname:", self)
         self.text3 = QLineEdit(self)
         self.text3.move(10, 180)
         self.label3.move(10,160)
@@ -47,19 +49,23 @@ class MainWindow(QWidget):
         self.show()
 
     def on_click(self):
-        hostname = self.text.text()
+        hostname = self.text3.text()
+        ip = self.text1.text()
+        api_key = self.text2.text()
 
         if hostname == "":
             QMessageBox.about(self, "Error", "Please fill the field")
         else:
-            res = self.__query(hostname)
+            res = self.__query(hostname,ip,api_key)
             if res:
-                self.label2.setText("Answer%s" % (res))
+                self.label2.setText("\n Longitude: %s \n Latitude: %s \n" % (res["Longitude"], res["Latitude"]))
                 self.label2.adjustSize()
                 self.show()
+                url3="https://www.openstreetmap.org/?mlat=%s&mlon=%s#map=12" % (res["Latitude"], res["Longitude"])
+                webbrowser.open_new_tab(url3)
 
     def __query(self, hostname,api_key,ip):
-        url = "http://%s" % (hostname,api_key,ip)
+        url = "http://%s/ip/%s?key=%s" % (hostname,api_key,ip)
         r = requests.get(url)
         if r.status_code == requests.codes.NOT_FOUND:
             QMessageBox.about(self, "Error", "IP not found")
